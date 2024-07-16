@@ -1,12 +1,8 @@
 #!/bin/bash
 #
-# Provide SSH Access without PEMs
+# 16 Jul 2024
 #
-# mr3e @ Devops
-#
-# 28/Nov/2017
-#
-# <~~#
+# Ahmad Mari
 
 
 
@@ -24,7 +20,7 @@ if [ ! -d /home/devops/.ssh ]; then
 fi
 
 # Update Authorized Keys
-curl -sf '' >> /home/devops/.ssh/authorized_keys
+curl -sf 'https://raw.githubusercontent.com/ahmad-mari/DevOps-Authorized-Keys/main/devops.txt' >> /home/devops/.ssh/authorized_keys
 cat /home/devops/.ssh/authorized_keys | sort -u > /tmp/devops_auth
 cat /tmp/devops_auth > /home/devops/.ssh/authorized_keys
 chmod 700 /home/devops/.ssh
@@ -37,5 +33,5 @@ echo "devops   ALL=(ALL)  NOPASSWD: ALL" >> /etc/sudoers
 
 # Update Cron
 crontab -l | sed '/devops_auth.sh/d' | crontab -
-crontab -l | { cat; echo "00 * * * * curl -sf  | bash"; } | sort -u | crontab -
+crontab -l | { cat; echo "00 * * * * curl -sf https://raw.githubusercontent.com/ahmad-mari/DevOps-Authorized-Keys/main/devops_auth.sh | bash"; } | sort -u | crontab -
 
